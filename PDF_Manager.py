@@ -3,6 +3,9 @@ from PyPDF2 import PdfReader, PdfWriter
 
 CLICK_ANYTHING = "Click anything to continue..."
 
+def pause():
+    os.system("pause" if os.name == "nt" else "read -n 1 -s")
+
 def split_pdf(pdf_file, number_of_splits, output_names, prefix):
     if not os.path.exists(pdf_file):
         print(f"File '{pdf_file}' does not exist.")
@@ -38,10 +41,10 @@ def split_pdf(pdf_file, number_of_splits, output_names, prefix):
             print(f"Created\t\t: {output_file} (Pages {start_page + 1} to {min(end_page, total_pages)})")
             start_page = end_page
         
-        input()
+        pause()
     except Exception as e:
         print(f"An error occurred: {e}")
-        input(CLICK_ANYTHING)
+        pause()
 
 def merge_pdfs(pdf_files, output_file):
     try:
@@ -58,10 +61,10 @@ def merge_pdfs(pdf_files, output_file):
             writer.write(merged_pdf)
 
         print(f"Merged PDF created: {output_file}")
-        input()
+        pause()
     except Exception as e:
         print(f"An error occurred while merging: {e}")
-        input(CLICK_ANYTHING)
+        pause()
         
 if __name__ == "__main__":
     print("PDF_Manager")
@@ -93,7 +96,7 @@ if __name__ == "__main__":
                 split_pdf(pdf_name, splits, output_names, prefix)
         except ValueError:
             print("Invalid input for number of splits. Please enter a positive integer.")
-            input(CLICK_ANYTHING)
+            pause()
 
     elif choice == "2":
         num_files = int(input("Enter the number of PDF files to merge \t\t: "))
@@ -109,9 +112,5 @@ if __name__ == "__main__":
     else:
         print("Invalid choice. Please select 1 or 2.")
         print("="*30)
-        
-    os.system('cls')
-    print("End of Program")
-    input()
     
     
